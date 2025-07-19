@@ -1,204 +1,280 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>บันทึกเกรดนักศึกษา</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet" />
   <style>
     body {
-      font-family:Arial;;
+      font-family: 'K2D', sans-serif;
+      background: #000000;
     }
   </style>
 </head>
-<body class="bg-green-50 min-h-screen py-6 px-4">
-  <div class="max-w-screen-xl mx-auto bg-white p-8 sm:p-8 rounded-xl shadow-lg">
-    <h1 class="text-3xl font-bold text-green-800 mb-10 text-center">บันทึกเกรดนักศึกษา</h1>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-      <!-- รายวิชา -->
-      <div>
-        <label class="block text-black-700 mb-1">รายวิชา</label>
-        <select class="w-full border rounded px-3 py-2">
-          <option value="">-- เลือกรายวิชา --</option>
-          <option value="">เว็บเทคโนโลยี Web Technology</option>
-          <option value="">ฐานข้อมูลโครงสร้างเชิงสัมพันธ์ Structure Relational Database</option>
-        </select>
+<body class="bg-green-50 min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="bg-white shadow-md py-4 px-4">
+    <div class="max-w-screen-lg mx-auto flex items-center justify-between">
+
+      <!-- ซ้าย: โลโก้ + ข้อความ -->
+      <div class="flex items-center space-x-4">
+        <img src="MJU_LOGO.svg.png" alt="MJU Logo" class="h-12 sm:h-14">
+        
+        <div class="text-center sm:text-left">
+          <div class="text-sm md:text-base leading-tight">
+            
+            <span class="font-bold text-lg">มหาวิทยาลัยแม่โจ้</span><br>
+            
+            <span class="uppercase text-xs tracking-wide">MAEJO UNIVERSITY</span>
+            
+            
+          </div>
+        </div>
+        <div class="hidden sm:block border-l-2 h-10 mx-4"></div>
+        <img src="MJU university.png" alt="MJU Icon" class="h-12 sm:h-14 hidden sm:block">
       </div>
 
-      <!-- กลุ่ม -->
-      <div>
-        <label class="block text-black-700 mb-1">กลุ่ม</label>
-        <select class="w-full border rounded px-3 py-2">
-          <option value="">-- เลือกกลุ่ม --</option>
-          <option value="1">กลุ่ม 1</option>
-          <option value="2">กลุ่ม 2</option>
-        </select>
-      </div>
+      <!-- ขวา: Logout -->
+      <div class="flex items-center">
+  <a href="#logout" class="bg-green-700 hover:bg-red-600 text-white px-4 py-2 rounded hidden md:inline-block">
+    Logout
+  </a>
+</div>
 
-      <!-- ปีการศึกษา -->
-      <div>
-        <label class="block text-black-700 mb-1">ปีการศึกษา</label>
-        <select class="w-full border rounded px-3 py-2">
-          <option value="">-- เลือกปีการศึกษา --</option>
-          <option value="2567">2567/1</option>
-          <option value="2568">2568/2</option>
-        </select>
+    </div>
+  </header>
+
+  <!-- Navigation -->
+  <nav class="bg-green-700 ">
+    <div class="container mx-auto flex items-center justify-between px-6 py-4">
+      <!-- โลโก้ย่อ -->
+      <a href="#home" class="flex items-center space-x-2 text-white font-semibold text-xl md:hidden">
+      </a>
+
+      <!-- Hamburger -->
+      <button id="menu-toggle" class="md:hidden text-white focus:outline-none">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
+          viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+
+      <!-- Desktop Menu -->
+      <div class="hidden md:flex justify-center items-center space-x-8 text-white w-full translate-x-[21%]">
+        <a href="#home" class="hover:bg-green-800 px-2 py-2 rounded">หน้าแรก</a>
+        <a href="#schedule" class="hover:bg-green-800 px-2 py-2 rounded">ตารางเรียน</a>
+        <a href="#rooms" class="hover:bg-green-800 px-2 py-2 rounded">ตารางการใช้ห้อง</a>
+        <a href="#calendar" class="hover:bg-green-800 px-2 py-2 rounded">ปฏิทินการศึกษา</a>
       </div>
     </div>
 
-    <form>
-      <!-- ห่อ table ด้วย div เพื่อให้เลื่อนได้ในมือถือ -->
-      <div class="overflow-x-auto">
-        <table class="w-full table-fixed border border-green-300 border-collapse text-center text-sm mb-6 min-w-[600px]">
-          <thead class="bg-green-100">
-            <tr>
-              <th class="border border-green-300 px-2 py-2">ลำดับ</th>
-              <th class="border border-green-300 px-2 py-2">รหัสนักศึกษา</th>
-              <th class="border border-green-300 px-2 py-2">ชื่อนักศึกษา</th>
-              <th class="border border-green-300 px-2 py-2">คะแนน</th>
-              <th class="border border-green-300 px-2 py-2">หน่วยกิต</th>
-              <th class="border border-green-300 px-2 py-2">เกรด</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- นักศึกษาคนที่ 1 -->
-            <tr>
-              <td class="border px-2 py-2">1</td>
-              <td class="border px-2 py-2">6704101356</td>
-              <td class="border px-2 py-2">นางสาวพจมา คูเชอร์</td>
-              <td class="border px-2 py-2">
-                <input type="number" name="score1" min="0" max="100" class="w-full min-w-[80px] border rounded px-2 py-1" />
-              </td>
-              <td class="border px-2 py-2">
-                <input type="number" name="credit1" class="w-full border rounded px-2 py-1" min="1" max="6" />
-              </td>
-              <td class="border px-2 py-2">
-                <select name="grade1" class="w-full border rounded px-2 py-1 text-sm">
-                  <option value="">เลือก</option>
-                  <option>A</option>
-                  <option>B+</option>
-                  <option>B</option>
-                  <option>C+</option>
-                  <option>C</option>
-                  <option>D+</option>
-                  <option>D</option>
-                  <option>F</option>
-                </select>
-              </td>
-            </tr>
+    <!-- Mobile Menu -->
+     
+    <div id="mobile-menu"
+      class="md:hidden hidden absolute top-52 right-4 z-50 bg-green-800 text-white rounded-xl shadow-lg px-6 py-4 w-48">
+      <a href="#home" class="block py-1 hover:bg-green-700 rounded">หน้าแรก</a>
+      <a href="#schedule" class="block py-1 hover:bg-green-700 rounded">ตารางเรียน</a>
+      <a href="#rooms" class="block py-1 hover:bg-green-700 rounded">ตารางการใช้ห้อง</a>
+      <a href="#calendar" class="block py-1 hover:bg-green-700 rounded">ปฏิทินการศึกษา</a>
+      <button
+        class="mt-4 w-full bg-white text-green-900 font-medium py-2 rounded hover:bg-gray-100">Logout</button>
+    </div>
+    
+  </nav>
 
-            <!-- คนที่ 2-5 -->
-            <tr>
-              <td class="border px-2 py-2">2</td>
-              <td class="border px-2 py-2">6704101341</td>
-              <td class="border px-2 py-2">นางสาวนวพร อินธิแสง</td>
-              <td class="border px-2 py-2">
-                <input type="number" name="score2" min="0" max="100" class="w-full border rounded px-2 py-1" />
-              </td>
-              <td class="border px-2 py-2">
-                <input type="number" name="credit2" class="w-full border rounded px-2 py-1" min="1" max="6" />
-              </td>
-              <td class="border px-2 py-2">
-                <select name="grade2" class="w-full border rounded px-2 py-1 text-sm">
-                  <option value="">เลือก</option>
-                  <option>A</option>
-                  <option>B+</option>
-                  <option>B</option>
-                  <option>C+</option>
-                  <option>C</option>
-                  <option>D+</option>
-                  <option>D</option>
-                  <option>F</option>
-                </select>
-              </td>
-            </tr>
+  <!-- Main Content -->
+  <main class="flex-1 py-8 px-4">
+    <div class="max-w-screen-xl mx-auto bg-white p-8 sm:p-8 rounded-xl shadow-lg">
+      <h1 class="text-3xl font-bold text-green-800 mb-10 text-center">บันทึกเกรดนักศึกษา</h1>
 
-            <tr>
-              <td class="border px-2 py-2">3</td>
-              <td class="border px-2 py-2">6704101393</td>
-              <td class="border px-2 py-2">นางสาวชนากานต์ โสสุข</td>
-              <td class="border px-2 py-2">
-                <input type="number" name="score3" min="0" max="100" class="w-full border rounded px-2 py-1" />
-              </td>
-              <td class="border px-2 py-2">
-                <input type="number" name="credit3" class="w-full border rounded px-2 py-1" min="1" max="6" />
-              </td>
-              <td class="border px-2 py-2">
-                <select name="grade3" class="w-full border rounded px-2 py-1 text-sm">
-                  <option value="">เลือก</option>
-                  <option>A</option>
-                  <option>B+</option>
-                  <option>B</option>
-                  <option>C+</option>
-                  <option>C</option>
-                  <option>D+</option>
-                  <option>D</option>
-                  <option>F</option>
-                </select>
-              </td>
-            </tr>
-
-            <tr>
-              <td class="border px-2 py-2">4</td>
-              <td class="border px-2 py-2">6704101331</td>
-              <td class="border px-2 py-2">นายธนกฤต เลิศประเสริฐ</td>
-              <td class="border px-2 py-2">
-                <input type="number" name="score4" min="0" max="100" class="w-full border rounded px-2 py-1" />
-              </td>
-              <td class="border px-2 py-2">
-                <input type="number" name="credit4" class="w-full border rounded px-2 py-1" min="1" max="6" />
-              </td>
-              <td class="border px-2 py-2">
-                <select name="grade4" class="w-full border rounded px-2 py-1 text-sm">
-                  <option value="">เลือก</option>
-                  <option>A</option>
-                  <option>B+</option>
-                  <option>B</option>
-                  <option>C+</option>
-                  <option>C</option>
-                  <option>D+</option>
-                  <option>D</option>
-                  <option>F</option>
-                </select>
-              </td>
-            </tr>
-
-            <tr>
-              <td class="border px-2 py-2">5</td>
-              <td class="border px-2 py-2">6704101408</td>
-              <td class="border px-2 py-2">นายรพีพงศ์ ดวงคำฟู</td>
-              <td class="border px-2 py-2">
-                <input type="number" name="score5" min="0" max="100" class="w-full border rounded px-2 py-1" />
-              </td>
-              <td class="border px-2 py-2">
-                <input type="number" name="credit5" class="w-full border rounded px-2 py-1" min="1" max="6" />
-              </td>
-              <td class="border px-2 py-2">
-                <select name="grade5" class="w-full border rounded px-2 py-1 text-sm">
-                  <option value="">เลือก</option>
-                  <option>A</option>
-                  <option>B+</option>
-                  <option>B</option>
-                  <option>C+</option>
-                  <option>C</option>
-                  <option>D+</option>
-                  <option>D</option>
-                  <option>F</option>
-                </select>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <!-- ตัวเลือก -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <div>
+          <label class="block text-black mb-1">รายวิชา</label>
+          <select class="w-full border rounded px-3 py-2">
+            <option value="">-- เลือกรายวิชา --</option>
+            <option>เว็บเทคโนโลยี Web Technology</option>
+            <option>ฐานข้อมูลโครงสร้างเชิงสัมพันธ์ Structure Relational Database</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-black mb-1">กลุ่ม</label>
+          <select class="w-full border rounded px-3 py-2">
+            <option value="">-- เลือกกลุ่ม --</option>
+            <option>กลุ่ม 1</option>
+            <option>กลุ่ม 2</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-black mb-1">ปีการศึกษา</label>
+          <select class="w-full border rounded px-3 py-2">
+            <option value="">-- เลือกปีการศึกษา --</option>
+            <option>2567/1</option>
+            <option>2568/2</option>
+          </select>
+        </div>
       </div>
 
-      <div class="text-center mt-10">
-        <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg shadow">
-          บันทึกข้อมูล
-        </button>
-      </div>
-    </form>
-  </div>
+      <!-- ตารางกรอกคะแนน -->
+      <form>
+        <div class="overflow-x-auto">
+          <table
+            class="w-full table-fixed border border-green-300 border-collapse text-center text-sm mb-6 min-w-[600px]">
+            <thead class="bg-green-100">
+              <tr>
+                <th class="border px-2 py-2">ลำดับ</th>
+                <th class="border px-2 py-2">รหัสนักศึกษา</th>
+                <th class="border px-2 py-2">ชื่อนักศึกษา</th>
+                <th class="border px-2 py-2">คะแนน</th>
+                <th class="border px-2 py-2">หน่วยกิต</th>
+                <th class="border px-2 py-2">เกรด</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="border px-2 py-2">1</td>
+                <td class="border px-2 py-2">6704101356</td>
+                <td class="border px-2 py-2">นางสาวพจมา คูเชอร์</td>
+                <td class="border px-2 py-2"><input type="number" min="0" max="100"
+                    class="w-full border rounded px-2 py-1" /></td>
+                <td class="border px-2 py-2"><input type="number" min="1" max="6"
+                    class="w-full border rounded px-2 py-1" /></td>
+                <td class="border px-2 py-2">
+                  <select class="w-full border rounded px-2 py-1 text-sm">
+                    <option>เลือก</option>
+                    <option>A</option>
+                    <option>B+</option>
+                    <option>B</option>
+                    <option>C+</option>
+                    <option>C</option>
+                    <option>D+</option>
+                    <option>D</option>
+                    <option>F</option>
+                  </select>
+                </td>
+              </tr>
+              <!-- นักศึกษาอีก 4 คน -->
+              <tr>
+                <td class="border px-2 py-2">2</td>
+                <td class="border px-2 py-2">6704101341</td>
+                <td class="border px-2 py-2">นางสาวนวพร อินธิแสง</td>
+                <td class="border px-2 py-2"><input type="number" class="w-full border rounded px-2 py-1" /></td>
+                <td class="border px-2 py-2"><input type="number" class="w-full border rounded px-2 py-1" /></td>
+                <td class="border px-2 py-2">
+                  <select class="w-full border rounded px-2 py-1 text-sm">
+                    <option>เลือก</option>
+                    <option>A</option>
+                    <option>B+</option>
+                    <option>B</option>
+                    <option>C+</option>
+                    <option>C</option>
+                    <option>D+</option>
+                    <option>D</option>
+                    <option>F</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-2">3</td>
+                <td class="border px-2 py-2">6704101393</td>
+                <td class="border px-2 py-2">นางสาวชนากานต์ โสสุข</td>
+                <td class="border px-2 py-2"><input type="number" class="w-full border rounded px-2 py-1" /></td>
+                <td class="border px-2 py-2"><input type="number" class="w-full border rounded px-2 py-1" /></td>
+                <td class="border px-2 py-2">
+                  <select class="w-full border rounded px-2 py-1 text-sm">
+                    <option>เลือก</option>
+                    <option>A</option>
+                    <option>B+</option>
+                    <option>B</option>
+                    <option>C+</option>
+                    <option>C</option>
+                    <option>D+</option>
+                    <option>D</option>
+                    <option>F</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-2">4</td>
+                <td class="border px-2 py-2">6704101331</td>
+                <td class="border px-2 py-2">นายธนกฤต เลิศประเสริฐ</td>
+                <td class="border px-2 py-2"><input type="number" class="w-full border rounded px-2 py-1" /></td>
+                <td class="border px-2 py-2"><input type="number" class="w-full border rounded px-2 py-1" /></td>
+                <td class="border px-2 py-2">
+                  <select class="w-full border rounded px-2 py-1 text-sm">
+                    <option>เลือก</option>
+                    <option>A</option>
+                    <option>B+</option>
+                    <option>B</option>
+                    <option>C+</option>
+                    <option>C</option>
+                    <option>D+</option>
+                    <option>D</option>
+                    <option>F</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td class="border px-2 py-2">5</td>
+                <td class="border px-2 py-2">6704101408</td>
+                <td class="border px-2 py-2">นายรพีพงศ์ ดวงคำฟู</td>
+                <td class="border px-2 py-2"><input type="number" class="w-full border rounded px-2 py-1" /></td>
+                <td class="border px-2 py-2"><input type="number" class="w-full border rounded px-2 py-1" /></td>
+                <td class="border px-2 py-2">
+                  <select class="w-full border rounded px-2 py-1 text-sm">
+                    <option>เลือก</option>
+                    <option>A</option>
+                    <option>B+</option>
+                    <option>B</option>
+                    <option>C+</option>
+                    <option>C</option>
+                    <option>D+</option>
+                    <option>D</option>
+                    <option>F</option>
+                  </select>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="text-center mt-10">
+          <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg shadow">
+            บันทึกข้อมูล
+          </button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-green-700 text-white text-center py-4 text-sm">
+    © 2025 มหาวิทยาลัยแม่โจ้ | คณะวิทยาศาสตร์
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    const menu = document.getElementById('mobile-menu');
+    const toggleBtn = document.getElementById('menu-toggle');
+
+    // toggle ปุ่มสาวขีด ซ่อน-แสดงเมนู
+    toggleBtn.addEventListener('click', function () {
+      menu.classList.toggle('hidden');
+    });
+
+    // ซ่อนเมนูเมื่อคลิกลิงก์ในเมนูมือถือ
+    menu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        menu.classList.add('hidden');
+      });
+    });
+  </script>
+
 </body>
+
 </html>
